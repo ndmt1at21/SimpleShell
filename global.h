@@ -3,9 +3,39 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define OSH_TOK_BUFFSIZE 64
-#define OSH_SPACES " \t\r\n"
+#define TOK_BUFFSIZE 64
 
+// Print array string. Just for debuggging
+void print(char** arrStr) {
+    for (size_t i = 0; arrStr[i] != NULL; i++) {
+        printf("%s\n", arrStr[i]);
+    }
+}
+
+
+// Check char is space?
+bool isSpace(char ch) {
+    if (ch == ' ') {
+        return true;
+    }
+    return false;
+}
+
+// Check char contain in string?
+bool isContain(char ch, char* str) {
+    if (str == NULL) {
+        return false;
+    }
+
+    for (size_t i = 0; i < strlen(str); i++) {
+        if (str[i] == ch)
+            return true;
+    }
+
+    return false;
+}
+
+// Getline from stdin to string, delim auto '\n'
 char* readline() {
     char* str = NULL;
     size_t buffSize = 0;
@@ -20,51 +50,65 @@ char* readline() {
     return str;
 }
 
-bool isSpace(char ch) {
-    if (ch == ' ') {
-        return true;
-    }
-    return false;
-}
-
-bool isContain(char ch, char* str) {
-    if (str == NULL) {
-        return false;
-    }
-
-    for (size_t i = 0; i < strlen(str); i++) {
-        if (str[i] == ch)
-            return true;
-    }
-
-    return false;
-}
-
 //remove one more space in string
 //ex. "abc  xyz   " -> "abc xyz "
-void stripExtraSpace(char* dstStr) {
-    if (dstStr == NULL)
+void stripExtraSpace(char* dstStr, char* spaceChars) {
+    if (dstStr == NULL) {
         return;
+    }
         
-    if (strlen(dstStr) == 1 && isContain(*dstStr, OSH_SPACES)) {
+    if (strlen(dstStr) == 1 && isContain(*dstStr, spaceChars)) {
         *dstStr = '\0';
         return;
     }
 
     size_t len = strlen(dstStr);
     size_t j = 0;
-    
+
     for (size_t i = 0; i < len; i++) {
-        if (!isContain(dstStr[i], OSH_SPACES) || 
-            (i > 0 && !isContain(dstStr[i - 1], OSH_SPACES))) 
+        if (!isContain(dstStr[i], spaceChars) || 
+            (i > 0 && !isContain(dstStr[i - 1], spaceChars))) 
         {
             dstStr[j++] = dstStr[i];
         }
     }
-    if (dstStr[j - 1] == ' ')
+    if (isContain(dstStr[j - 1], spaceChars)) {
         j--;
+    }
 
     dstStr[j] = '\0';
 }
 
+// Get tokens from string with delim char in delims string
+// Ex. "abc xyz" -> tokens = "abc", "xyz"
+char** getTokens(char* dstStr, char* delims) {
+    if (dstStr == NULL)
+        return NULL;
+    
+    if (delims == NULL)
+        return NULL;
+    
+    size_t buffSize = TOK_BUFFSIZE;
+    size_t currentPos = 0;
+    char** tokens = malloc(buffSize * sizeof(char*));
+    char* token;
+
+    token = strtok(dstStr, delims);
+
+    while (token != NULL) {
+        tokens[currentPos] = token;
+        currentPos++;
+
+        // if current size >= maxSize alloc before -> realloc, increase maxsize
+        if (currentPos >= buffSize) {
+            buffSize += TOK_BUFFSIZE;
+            tokens = realloc(tokens, buffSize * sizeof(char*));
+        }
+
+        token = strtok(NULL, delims);
+    }
+    tokens[currentPos] = NULL;
+    
+    return tokens;
+}
 

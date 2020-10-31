@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "global.h"
+#define OSH_TOK_DELIM " \n\r\t\a|><"
+#define OSH_SPACES " \t\r\n\a"
 
 void handleInput() {
     char* line = readline();
@@ -18,8 +17,9 @@ void oshLoop() {
 }
 
 int main() {
-    char str[] = "    Nguyen \n\r\r\t Duc Minh   \t\t\t\t\t  Tri  ";
-    stripExtraSpace(str);
-
+    char str[] = "\a    Nguyen \n\r\r\t Duc Minh\t\t\t\t\tTri  ";
+    stripExtraSpace(str, OSH_SPACES);
     printf("%s", str);
+    char** a = getTokens(str, OSH_TOK_DELIM);
+    print(a);
 }
