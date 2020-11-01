@@ -13,6 +13,21 @@ void print(char** arrStr) {
     }
 }
 
+void freeStr(char* str) {
+    if (str != NULL) {
+        free(str);
+    }
+}
+
+void freeArrStr(char** arrStr) {
+    if (arrStr != NULL) {
+        for (size_t i = 0; arrStr[i] != NULL; i++) {
+            freeStr(arrStr[i]);
+        }
+        free(arrStr);
+    }
+    
+}
 
 // Check char is space?
 bool isSpace(char ch) {

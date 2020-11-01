@@ -44,7 +44,7 @@ void (*buildinFunc[])(char**) = {
 };
 
 void execBuilin(char** args) {
-    for (int i = 0; buildinStr[i] != NULL; i++) {
+    for (int i = 0; i < 3; i++) {
         if (strcmp(args[0], buildinStr[i]) == 0) {
             return (*buildinFunc[i])(args);
         }

@@ -34,7 +34,7 @@ int getTypeExec(char** args) {
 
     for (size_t i = 0; args[i] != NULL; i++) {
         if (args[i] == "|") {
-            return OPT_PIPE
+            return OPT_PIPE;
         } else if (args[i] == ">") {
             return OPT_TOFILE;
         } else if (args[i] == "<") {

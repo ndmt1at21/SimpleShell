@@ -1,24 +1,50 @@
 #include "global.h"
 #include "parse.h"
-#include "build-in.h"
+#include "exec.h"
 
 #define OSH_SPACES " \t\r\n\a"
 
-void handleInput() {
-    char* line = readline();
-    printf("%s", line);
-    printf("%zu", strlen(line));
-
-    free(line);
+char* handleInput() {
+    return readline();
 }   
 
 void oshLoop() {
-    while (1) {
-        handleInput();
+    // init history
+    initHistory();
+
+    while (true) {
+        // Program sign
+        printf("osh>");
+        
+        // user input
+        char* inputStr = handleInput();
+        if (strlen(inputStr) == 0)
+            continue;
+
+        // add user input to hisstory
+        addHistory(inputStr);
+        
+        // parse 
+        stripExtraSpace(inputStr, OSH_SPACES);
+        char** args = getTokens(inputStr);
+        
+        // exec builtin
+        execBuilin(args);
+
+        //exec
+        int typeExec = getTypeExec(args);
+        switch (typeExec) {
+
+        }
+
+        // Free memory
+        free(inputStr);
+        freeArrStr(args);
     }
+
+    freeHistory();
 }
 
 int main() {
-    char* args[] = {"cd", "desktop"};
-    execBuilin(args);
+    oshLoop();
 }
