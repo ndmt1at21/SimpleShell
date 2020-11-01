@@ -79,36 +79,3 @@ void stripExtraSpace(char* dstStr, char* spaceChars) {
     dstStr[j] = '\0';
 }
 
-// Get tokens from string with delim char in delims string
-// Ex. "abc xyz" -> tokens = "abc", "xyz"
-char** getTokens(char* dstStr, char* delims) {
-    if (dstStr == NULL)
-        return NULL;
-    
-    if (delims == NULL)
-        return NULL;
-    
-    size_t buffSize = TOK_BUFFSIZE;
-    size_t currentPos = 0;
-    char** tokens = malloc(buffSize * sizeof(char*));
-    char* token;
-
-    token = strtok(dstStr, delims);
-
-    while (token != NULL) {
-        tokens[currentPos] = token;
-        currentPos++;
-
-        // if current size >= maxSize alloc before -> realloc, increase maxsize
-        if (currentPos >= buffSize) {
-            buffSize += TOK_BUFFSIZE;
-            tokens = realloc(tokens, buffSize * sizeof(char*));
-        }
-
-        token = strtok(NULL, delims);
-    }
-    tokens[currentPos] = NULL;
-    
-    return tokens;
-}
-
