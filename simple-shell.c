@@ -1,5 +1,7 @@
 #include "global.h"
 #include "parse.h"
+#include "build-in.h"
+
 #define OSH_SPACES " \t\r\n\a"
 
 void handleInput() {
@@ -8,7 +10,7 @@ void handleInput() {
     printf("%zu", strlen(line));
 
     free(line);
-}
+}   
 
 void oshLoop() {
     while (1) {
@@ -17,8 +19,6 @@ void oshLoop() {
 }
 
 int main() {
-    char str[] = "ls | input.txt";
-    stripExtraSpace(str, OSH_SPACES);
-    char** a = getTokens(str);
-    print(a);
+    char* args[] = {"cd", "desktop"};
+    execBuilin(args);
 }
