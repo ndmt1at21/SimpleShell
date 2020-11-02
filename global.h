@@ -1,8 +1,13 @@
+#ifndef _GLOBAL_H_
+#define _GLOBAL_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 #define TOK_BUFFSIZE 64
 
@@ -96,3 +101,4 @@ void stripExtraSpace(char* dstStr, char* spaceChars) {
     dstStr[j] = '\0';
 }
 
+#endif

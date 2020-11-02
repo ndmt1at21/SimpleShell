@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef _HISTORY_H
+#define _HISTORY_H_
+
+#include "global.h"
 
 #define DEFAULT_HISTFILESIZE 64;
 #define DEFAULT_HISTSIZE 0;
@@ -118,3 +120,5 @@ void clearHistory() {
 void freeHistory() {
     freeArrStr(historyList);
 }
+
+#endif

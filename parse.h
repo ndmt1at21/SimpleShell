@@ -1,5 +1,4 @@
-#ifndef _GLOBAL_H_
-#define _GLOBAL_H_
+#include "global.h"
 
 #define OSH_OPT "|><&"
 #define OSH_TOK_DELIM " \n\r\t\a|><&"
@@ -59,5 +58,3 @@ char** getTokens(char* dstStr) {
 
     return tokens;
 }
-
-#endif

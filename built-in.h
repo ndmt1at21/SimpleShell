@@ -1,8 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdbool.h>
-#include <string.h>
+#ifndef _BUILTIN_H_
+#define _BUILTIN_H_
+
+#include "global.h"
 #include "history.h"
 
 const char* builtinStr[] = {
@@ -50,3 +49,5 @@ void execBuiltin(char** args) {
         }
     }
 }
+
+#endif

@@ -1,8 +1,7 @@
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include "built-in.h"
+#ifndef _EXEC_H_
+#define _EXEC_H_
 
+#include "global.h"
 
 #define OPT_NONE 0
 #define OPT_PIPE 1
@@ -73,3 +72,5 @@ void parent(pid_t child_pid, bool wait) {
         waitpid(child_pid, &status, 0);
     }
 }
+
+#endif

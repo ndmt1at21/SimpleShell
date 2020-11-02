@@ -1,6 +1,7 @@
 #include "global.h"
 #include "parse.h"
 #include "exec.h"
+#include "built-in.h"
 
 #define OSH_SPACES " \t\r\n\a"
 
@@ -10,13 +11,16 @@ char* handleInput() {
 
 void oshLoop() {
     bool isRunning = true;
+    char cwd[1024];
 
     // init history
     initHistory();
 
     while (isRunning) {
+        getcwd(cwd, 1024);
+
         // Program sign
-        printf("osh>");
+        printf("%s osh>", cwd);
         
         // user input
         char* inputStr = handleInput();
@@ -31,15 +35,17 @@ void oshLoop() {
         stripExtraSpace(inputStr, OSH_SPACES);
         char** args = getTokens(inputStr);
         
-        //check exit 
-        if (strcmp(args[0], "exit") == 0)
+        // exit
+        if (strcmp(args[0], "exit") == 0) {
             isRunning = false;
+        }
 
         // exec builtin (if args have keyword in builtin string)
         execBuiltin(args);
 
         //exec
         int typeExec = getTypeExec(args);
+        bool wait = isBackground(args);
         pid_t pid = fork();
 
         switch (pid) {
