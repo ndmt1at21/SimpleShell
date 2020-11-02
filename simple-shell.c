@@ -33,6 +33,7 @@ void oshLoop() {
         execBuilin(args);
 
         //exec
+        int typeExec = getTypeExec(args);
         pid_t pid = fork();
 
         switch (pid) {
@@ -42,19 +43,18 @@ void oshLoop() {
 
             case 0:
                 //child
-                int typeExec = getTypeExec(args);
                 switch (typeExec) {
                     case OPT_PIPE:
                         childPipe(args);
                         break;
                     case OPT_FROMFILE:
-                        childFromFile();
+                        childFromFile(args);
                         break;
                     case OPT_TOFILE:
-                        childToFile();
+                        childToFile(args);
                         break;
                     default:
-                        child();
+                        childNormal(args);
                 }
                 break;
 
