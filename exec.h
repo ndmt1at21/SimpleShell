@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-#include "build-in.h"
+#include "built-in.h"
 
 
 #define OPT_NONE 0
@@ -45,7 +45,7 @@ int getTypeExec(char** args) {
 }
 
 void childNormal(char** args) {
-    //write code in here
+    execvp(args[0], args);
 }
 
 void childFromFile(char** args) {

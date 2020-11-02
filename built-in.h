@@ -5,14 +5,14 @@
 #include <string.h>
 #include "history.h"
 
-const char* buildinStr[] = {
+const char* builtinStr[] = {
     "cd",
     "!!", //history
     "help",
     NULL 
 };
 
-void buildinHistory(char** args) {
+void builtinHistory(char** args) {
     if (args[1] == "-c") {
         clearHistory();
     } else if (args[1] == NULL) {
@@ -22,7 +22,7 @@ void buildinHistory(char** args) {
     }
 }
 
-void buildinCd(char** args) {
+void builtinCd(char** args) {
     // args[0] = "cd"
     if (args[1] == NULL) {
         perror("unknown directory");
@@ -33,20 +33,20 @@ void buildinCd(char** args) {
     }
 }
 
-void buildinHelp() {
+void builtinHelp() {
     printf("Nothing in here, you can do it by yourself :))");
 }
 
-void (*buildinFunc[])(char**) = {
-    &buildinCd,
-    &buildinHistory,
-    &buildinHelp
+void (*builtinFunc[])(char**) = {
+    &builtinCd,
+    &builtinHistory,
+    &builtinHelp
 };
 
-void execBuilin(char** args) {
+void execBuiltin(char** args) {
     for (int i = 0; i < 3; i++) {
-        if (strcmp(args[0], buildinStr[i]) == 0) {
-            return (*buildinFunc[i])(args);
+        if (strcmp(args[0], builtinStr[i]) == 0) {
+            return (*builtinFunc[i])(args);
         }
     }
 }

@@ -9,10 +9,12 @@ char* handleInput() {
 }   
 
 void oshLoop() {
+    bool isRunning = true;
+
     // init history
     initHistory();
 
-    while (true) {
+    while (isRunning) {
         // Program sign
         printf("osh>");
         
@@ -29,8 +31,12 @@ void oshLoop() {
         stripExtraSpace(inputStr, OSH_SPACES);
         char** args = getTokens(inputStr);
         
+        //check exit 
+        if (strcmp(args[0], "exit") == 0)
+            isRunning = false;
+
         // exec builtin (if args have keyword in builtin string)
-        execBuilin(args);
+        execBuiltin(args);
 
         //exec
         int typeExec = getTypeExec(args);
