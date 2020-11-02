@@ -6,9 +6,8 @@
 
 #define OPT_NONE 0
 #define OPT_PIPE 1
-#define OPT_AMPERSAND 2
-#define OPT_TOFILE 3
-#define OPT_FROMFILE 4
+#define OPT_TOFILE 2
+#define OPT_FROMFILE 3
 
 bool isBackground(char** args) {
     if (args == NULL) {
@@ -61,9 +60,16 @@ void childPipe(char** args) {
     //write code in here
 }
 
-void parent(char** args) {
-    if (isBackground(args)) {
-        //waitpid() 
-        //write code in here
+void parent(pid_t child_pid, bool wait) {
+    int status;
+
+    if (wait) {
+        waitpid(child_pid, &status, WUNTRACED);
+
+        if (WIFEXITED(status)) {
+            printf("[%d] is finished and exited with status %d\n",child_pid,status);
+        }
+    } else {
+        waitpid(child_pid, &status, 0);
     }
 }

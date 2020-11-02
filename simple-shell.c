@@ -29,13 +29,38 @@ void oshLoop() {
         stripExtraSpace(inputStr, OSH_SPACES);
         char** args = getTokens(inputStr);
         
-        // exec builtin
+        // exec builtin (if args have keyword in builtin string)
         execBuilin(args);
 
         //exec
-        int typeExec = getTypeExec(args);
-        switch (typeExec) {
+        pid_t pid = folk();
 
+        switch (pid) {
+            case -1:
+                perror("folk failed");
+                exit(EXIT_FAILURE);
+
+            case 0:
+                //child
+                int typeExec = getTypeExec(args);
+                switch (typeExec) {
+                    case OPT_PIPE:
+                        childPipe(args);
+                        break;
+                    case OPT_FROMFILE:
+                        childFromFile();
+                        break;
+                    case OPT_TOFILE:
+                        childToFile();
+                        break;
+                    default:
+                        child();
+                }
+                break;
+
+            default:
+                //parent
+                parent(pid, wait);
         }
 
         // Free memory
