@@ -3,6 +3,11 @@
 #define OSH_OPT "|><&"
 #define OSH_TOK_DELIM " \n\r\t\a|><&"
 
+#define OPT_NONE 0
+#define OPT_PIPE 1
+#define OPT_TOFILE 2
+#define OPT_FROMFILE 3
+
 // Get tokens from string with delim char in delims string
 // Ex. "abc xyz" -> tokens = "abc", ""
 char** getTokens(char* dstStr) {
@@ -57,4 +62,43 @@ char** getTokens(char* dstStr) {
     tokens[currentPos] = NULL;
 
     return tokens;
+}
+
+// Parse args (include opt) to args1 & args2 (for pipe & <>)
+// element of args1 and args2 pointer to args, so not free them double
+int parseOptCommand(char** args, char** argsParsedOne, char** argsParsedTwo) {
+    if (args == NULL)
+        return OPT_NONE;
+
+    size_t posOpt = 0;  
+    size_t typeOpt = OPT_NONE;
+    size_t i = 0;
+
+    for (i = 0; args[i] != NULL; i++) {
+        if (strcmp(args[i], "|") == 0) {
+            typeOpt = OPT_PIPE;
+            posOpt = i;
+        } else if (strcmp(args[i], ">") == 0) {
+            typeOpt = OPT_TOFILE;
+            posOpt = i;
+        } else if (strcmp(args[i], "<") == 0) {
+            typeOpt = OPT_FROMFILE;
+            posOpt = i;
+        }
+    }
+
+    memset(argsParsedOne, 0, 100);
+    memset(argsParsedTwo, 0, 100);
+
+    size_t j = 0;
+    for (size_t i = 0; args[i] != NULL; i++) {
+        if (i < posOpt) {
+            argsParsedOne[i] = args[i];
+        } else if (i > posOpt) {
+            argsParsedTwo[j] = args[i];
+            j++;
+        }
+    }
+
+    return typeOpt;
 }

@@ -101,4 +101,17 @@ void stripExtraSpace(char* dstStr, char* spaceChars) {
     dstStr[j] = '\0';
 }
 
+size_t getSizeArrStr(char** arrStr) {
+    if (arrStr == NULL)
+        return 0;
+
+    size_t i = 0;
+    while (true) {
+        if (arrStr[i] == NULL) {
+            return i;
+        }
+        i++;
+    }
+}
+
 #endif

@@ -44,12 +44,19 @@ void oshLoop() {
         execBuiltin(args);
 
         //exec
-        int typeExec = getTypeExec(args);
         bool wait = isBackground(args);
+        if (wait) {
+            freeStr(args[getSizeArrStr(args) - 1]);
+            args[getSizeArrStr(args) - 1] = NULL;
+        }
+
+        char* args1[100];
+        char* args2[100];
+        int typeExec = parseOptCommand(args, args1, args2);
+  
+
+
         pid_t pid = fork();
-
-        printf("%d\n\n", typeExec);
-
         switch (pid) {
             case -1:
                 perror("fork failed");
@@ -59,19 +66,19 @@ void oshLoop() {
                 //child
                 switch (typeExec) {
                     case OPT_PIPE:
-                        childPipe(args);
+                        childPipe(args1, args2);
                         break;
                     case OPT_FROMFILE:
-                        childFromFile(args);
+                        childFromFile(args1, args2);
                         break;
                     case OPT_TOFILE:
-                        childToFile(args);
+                        childToFile(args1, args2);
                         break;
                     default:
                         childNormal(args);
+                        break;
                 }
-                break;
-
+                exit(EXIT_FAILURE);
             default:
                 //parent
                 parent(pid, wait);
