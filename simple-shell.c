@@ -48,6 +48,8 @@ void oshLoop() {
         bool wait = isBackground(args);
         pid_t pid = fork();
 
+        printf("%d\n\n", typeExec);
+
         switch (pid) {
             case -1:
                 perror("fork failed");

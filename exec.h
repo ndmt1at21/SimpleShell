@@ -31,11 +31,11 @@ int getTypeExec(char** args) {
     }
 
     for (size_t i = 0; args[i] != NULL; i++) {
-        if (args[i] == "|") {
+        if (strcmp(args[i], "|") == 0) {
             return OPT_PIPE;
-        } else if (args[i] == ">") {
+        } else if (strcmp(args[i], ">") == 0) {
             return OPT_TOFILE;
-        } else if (args[i] == "<") {
+        } else if (strcmp(args[i], "<") == 0) {
             return OPT_FROMFILE;
         }
     }
