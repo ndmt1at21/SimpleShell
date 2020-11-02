@@ -33,11 +33,11 @@ void oshLoop() {
         execBuilin(args);
 
         //exec
-        pid_t pid = folk();
+        pid_t pid = fork();
 
         switch (pid) {
             case -1:
-                perror("folk failed");
+                perror("fork failed");
                 exit(EXIT_FAILURE);
 
             case 0:
