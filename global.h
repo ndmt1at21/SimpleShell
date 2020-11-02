@@ -52,11 +52,12 @@ bool isContain(char ch, char* str) {
 }
 
 // Getline from stdin to string, delim auto '\n'
-char* readline() {
+char* readline(FILE* stream) {
     char* str = NULL;
     size_t buffSize = 0;
 
-    getline(&str, &buffSize, stdin);
+    if (getline(&str, &buffSize, stream) == -1)
+        return NULL;
     
     //remove \n when user hit enter
     if (strlen(str) > 0) {

@@ -5,7 +5,7 @@
 #define OSH_SPACES " \t\r\n\a"
 
 char* handleInput() {
-    return readline();
+    return readline(stdin);
 }   
 
 void oshLoop() {
@@ -23,7 +23,8 @@ void oshLoop() {
 
         // add user input to hisstory
         addHistory(inputStr);
-        
+        updateHistoryFile();
+
         // parse 
         stripExtraSpace(inputStr, OSH_SPACES);
         char** args = getTokens(inputStr);
@@ -38,7 +39,7 @@ void oshLoop() {
         }
 
         // Free memory
-        free(inputStr);
+        freeStr(inputStr);
         freeArrStr(args);
     }
 
