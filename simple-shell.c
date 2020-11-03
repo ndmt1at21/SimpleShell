@@ -38,11 +38,18 @@ void oshLoop() {
         // exit
         if (strcmp(args[0], "exit") == 0) {
             isRunning = false;
+            freeStr(inputStr);
+            freeArrStr(args);
+            continue;
         }
 
         // exec builtin (if args have keyword in builtin string)
-        execBuiltin(args);
-
+        if (execBuiltin(args) == 1) {
+            freeStr(inputStr);
+            freeArrStr(args);
+            continue;
+        }
+            
         //exec
         bool wait = isBackground(args);
         if (wait) {
@@ -54,8 +61,6 @@ void oshLoop() {
         char* args2[100];
         int typeExec = parseOptCommand(args, args1, args2);
   
-
-
         pid_t pid = fork();
         switch (pid) {
             case -1:
@@ -88,8 +93,9 @@ void oshLoop() {
         freeStr(inputStr);
         freeArrStr(args);
     }
-
+    
     freeHistory();
+
 }
 
 int main() {

@@ -42,6 +42,7 @@ void initHistory() {
     // Read history from histFile
     FILE* histFile = fopen(getDirBashFile("/.osh_history"), "r");
     if (histFile == NULL) {
+        historyCurrentSize = 0;
         return;
     }
 

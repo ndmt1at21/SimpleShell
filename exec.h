@@ -21,8 +21,8 @@ bool isBackground(char** args) {
 }
 
 void childNormal(char** args) {
-    printf("abcxyz");
-    if (execvp(args[0], args) < 0) {
+    printf("abc");
+    if (execvp(args[0], args) == -1) {
         perror("execute failed\n");
         exit(EXIT_FAILURE);
     }
@@ -88,7 +88,7 @@ void childPipe(char** argsIn, char** argsOut) {
 
 void parent(pid_t child_pid, bool wait) {
     int status;
-    printf("abcxyz");
+
     if (wait == 0) {
         waitpid(child_pid, &status, 0);
     } else {

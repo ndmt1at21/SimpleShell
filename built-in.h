@@ -11,7 +11,7 @@ const char* builtinStr[] = {
     NULL 
 };
 
-void builtinHistory(char** args) {
+int builtinHistory(char** args) {
     if (args[1] == "-c") {
         clearHistory();
     } else if (args[1] == NULL) {
@@ -19,9 +19,11 @@ void builtinHistory(char** args) {
     } else {
         perror("bad option history");
     }
+
+    return 1;
 }
 
-void builtinCd(char** args) {
+int builtinCd(char** args) {
     // args[0] = "cd"
     if (args[1] == NULL) {
         perror("unknown directory");
@@ -30,24 +32,29 @@ void builtinCd(char** args) {
             perror("cd failed");
         }
     }
+
+    return 1;
 }
 
-void builtinHelp() {
+int builtinHelp() {
     printf("Nothing in here, you can do it by yourself :))");
+    return 1;
 }
 
-void (*builtinFunc[])(char**) = {
+int (*builtinFunc[])(char**) = {
     &builtinCd,
     &builtinHistory,
     &builtinHelp
 };
 
-void execBuiltin(char** args) {
+int execBuiltin(char** args) {
     for (int i = 0; i < 3; i++) {
         if (strcmp(args[0], builtinStr[i]) == 0) {
             return (*builtinFunc[i])(args);
         }
     }
+
+    return 1;
 }
 
 #endif
