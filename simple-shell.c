@@ -53,12 +53,13 @@ void oshLoop() {
         //exec
         bool wait = isBackground(args);
         if (wait) {
+            // remove "&"" from args
             freeStr(args[getSizeArrStr(args) - 1]);
             args[getSizeArrStr(args) - 1] = NULL;
         }
 
-        char* args1[100];
-        char* args2[100];
+        char* args1[64];
+        char* args2[64];
         int typeExec = parseOptCommand(args, args1, args2);
   
         pid_t pid = fork();

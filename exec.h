@@ -21,19 +21,57 @@ bool isBackground(char** args) {
 }
 
 void childNormal(char** args) {
-    printf("abc");
-    if (execvp(args[0], args) == -1) {
+    if (execvp(args[0], args) < 0) {
         perror("execute failed\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void childFromFile(char** args1, char** dir) {
-    //write code in here
+void childFromFile(char** args, char** dir) {
+    if (dir == NULL) {
+        perror("invalid directory\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int fd;
+    fd = open(dir[0], O_RDONLY);
+
+    if (fd == -1) {
+        perror("file desciptor: cannot open\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("adghshd");
+    dup2(fd, STDIN_FILENO);
+    if (close(fd) < 0) {
+        perror("file desciptor: cannot close\n");
+        exit(EXIT_FAILURE);
+    }
+
+    childNormal(args);
 }
 
-void childToFile(char** args1, char** dir) {
-    //write code in here
+void childToFile(char** args, char** dir) {
+    if (dir == NULL) {
+        perror("invalid directory\n");
+        exit(EXIT_FAILURE);
+    }
+       printf("adghshd");
+    int fd;
+    fd = creat(dir[0], S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP);
+
+    if (fd == -1) {
+        perror("file desciptor: cannot create\n");
+        exit(EXIT_FAILURE);
+    }
+
+    dup2(fd, STDOUT_FILENO);
+    printf("adghshd");
+    if (close(fd) < 0) {
+        perror("file desciptor: cannot close\n");
+        exit(EXIT_FAILURE);
+    }
+
+    childNormal(args);
 }
 
 void childPipe(char** argsIn, char** argsOut) {
@@ -77,7 +115,7 @@ void childPipe(char** argsIn, char** argsOut) {
         close(fd[0]);
 
         childNormal(argsOut);
-         exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     } 
 
     close(fd[0]);

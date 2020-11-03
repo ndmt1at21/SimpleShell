@@ -8,6 +8,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <fcntl.h> // for open creat
 
 #define TOK_BUFFSIZE 64
 

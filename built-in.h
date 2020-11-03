@@ -12,10 +12,10 @@ const char* builtinStr[] = {
 };
 
 int builtinHistory(char** args) {
-    if (args[1] == "-c") {
-        clearHistory();
-    } else if (args[1] == NULL) {
+    if (args[1] == NULL) {
         printHistory();
+    } else if (strcmp(args[1], "-c") == 0) {
+        clearHistory();
     } else {
         perror("bad option history");
     }
@@ -54,7 +54,7 @@ int execBuiltin(char** args) {
         }
     }
 
-    return 1;
+    return 0;
 }
 
 #endif

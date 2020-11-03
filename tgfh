@@ -1,0 +1,9 @@
+built-in.h
+exec.h
+global.h
+history.h
+out
+parse.h
+simple-shell
+simple-shell.c
+tgfh
