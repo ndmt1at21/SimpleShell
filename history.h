@@ -8,6 +8,9 @@
 
 // value default just for init
 static size_t historyCurrentSize = DEFAULT_HISTSIZE;
+
+// hitsBuffSize will be read from profile file
+// you can change it in profile
 static size_t historyBuffSize = DEFAULT_HISTFILESIZE;
 static char** historyList = NULL;
 
@@ -50,6 +53,8 @@ void initHistory() {
     size_t buffSize = 0;
     size_t i = 0;
 
+    // Read all content from file
+    // until readline return null
     while (i <= historyBuffSize) {
         history = readline(histFile);
         if (history == NULL)
@@ -58,11 +63,13 @@ void initHistory() {
         historyList[i] = history;
         i++;
     }
+    // Ensure historyCurrentSize not larger than historyBuffSize
     historyCurrentSize = i >= historyBuffSize ? historyBuffSize : i;
     
     fclose(histFile);
 }
 
+// Add new history to history list
 void addHistory(char* newHistory) {
     if (newHistory == NULL)
         return;
@@ -91,6 +98,7 @@ void printHistory() {
     }
 }
 
+// Write history list array to history file
 void updateHistoryFile() {
     // Update profile
     FILE* profile = fopen(getDirBashFile("/.osh_profile"), "w");
@@ -111,6 +119,7 @@ void updateHistoryFile() {
     fclose(histFile);
 }
 
+// Clear history from history list array
 void clearHistory() {
     for (size_t i = 0; i < historyCurrentSize; i++) {
         freeStr(historyList[i]);
