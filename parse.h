@@ -57,6 +57,11 @@ char** getTokens(char* dstStr) {
         if (currentPos + 1 >= TOK_BUFFSIZE) {
             buffSize += TOK_BUFFSIZE;
             tokens = realloc(tokens, buffSize);
+
+            if (tokens == NULL) {
+                perror("realloc failed");
+                exit(EXIT_FAILURE);
+            }
         }
     }
     tokens[currentPos] = NULL;

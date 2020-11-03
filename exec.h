@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+// Check ampersand in args
+// Return: true if "&"" in args, otherwise 0
 bool isBackground(char** args) {
     if (args == NULL) {
         return false;
@@ -27,6 +29,8 @@ void childNormal(char** args) {
     }
 }
 
+// Exec child from file
+// dir: directory file in
 void childFromFile(char** args, char** dir) {
     if (dir == NULL) {
         perror("invalid directory\n");
@@ -40,7 +44,7 @@ void childFromFile(char** args, char** dir) {
         perror("file desciptor: cannot open\n");
         exit(EXIT_FAILURE);
     }
-    printf("adghshd");
+
     dup2(fd, STDIN_FILENO);
     if (close(fd) < 0) {
         perror("file desciptor: cannot close\n");
@@ -55,7 +59,7 @@ void childToFile(char** args, char** dir) {
         perror("invalid directory\n");
         exit(EXIT_FAILURE);
     }
-       printf("adghshd");
+   
     int fd;
     fd = creat(dir[0], S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP);
 
@@ -65,7 +69,6 @@ void childToFile(char** args, char** dir) {
     }
 
     dup2(fd, STDOUT_FILENO);
-    printf("adghshd");
     if (close(fd) < 0) {
         perror("file desciptor: cannot close\n");
         exit(EXIT_FAILURE);
@@ -133,7 +136,7 @@ void parent(pid_t child_pid, bool wait) {
         waitpid(child_pid, &status, WUNTRACED);
 
         if (WIFEXITED(status)) {
-            printf("[%d] is finished and exited with status %d\n",child_pid,status);
+            printf("[%d] is finished and exited with status %d\n", child_pid, status);
         }
     }
 }

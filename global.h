@@ -44,6 +44,9 @@ bool isSpace(char ch) {
 }
 
 // Check char contain in string?
+// Return:
+// 1 if char in str
+// otherwise 0
 bool isContain(char ch, char* str) {
     if (str == NULL) {
         return false;
@@ -57,7 +60,9 @@ bool isContain(char ch, char* str) {
     return false;
 }
 
-// Getline from stdin to string, delim auto '\n'
+// Getline from stream (file, stdin) to string, delim auto '\n'
+// Return: string input from stream, null if nothing to read
+// or not get char delim
 char* readline(FILE* stream) {
     char* str = NULL;
     size_t buffSize = 0;
@@ -102,6 +107,7 @@ void stripExtraSpace(char* dstStr, char* spaceChars) {
     dstStr[j] = '\0';
 }
 
+// Return: size of arr string (number of string in arr)
 size_t getSizeArrStr(char** arrStr) {
     if (arrStr == NULL)
         return 0;

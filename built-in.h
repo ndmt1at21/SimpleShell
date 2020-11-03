@@ -41,12 +41,18 @@ int builtinHelp() {
     return 1;
 }
 
+// Func pointer built in
+// args: built-in string
 int (*builtinFunc[])(char**) = {
     &builtinCd,
     &builtinHistory,
     &builtinHelp
 };
 
+// Exec built in 
+// Return: 
+// 1 if any func built-in exec
+// 0 if no built-in func exec
 int execBuiltin(char** args) {
     for (int i = 0; i < 3; i++) {
         if (strcmp(args[0], builtinStr[i]) == 0) {
